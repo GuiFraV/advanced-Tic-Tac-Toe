@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script src="app.js" defer></script>
+    <title>Tic Tac Toe v.2</title>
+</head>
+<body>
+
+    <header>
+        <img src="assets/logo.svg" alt="logo du tic tac toe">
+        <div class="sign-turn">
+            <div class="sign" id="sign"></div>
+            <p>TURN</p>
+        </div>
+        <div class="reset" id="reset">
+            <img src="assets/icon-restart.svg" alt="Recommencer">
+        </div>
+    </header>
+
+    <div class="board-game" id="board-game">
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+        <div class="cell" data-cell></div>
+    </div>
+
+    <footer>
+        <div class="score">X (YOU) <span>14</span></div>
+        <div class="score"> TIES <span>32</span></div>
+        <div class="score">O (CPU) <span>11</span></div>
+    </footer>
+
+    <div class="screen" id="screen"></div>
+
+    <div class="winning-screen" id='winning-screen'>
+
+        <p>Player 2 WINS!</p>
+
+        <div class="foo">
+            <div></div>
+            <span>TAKES THE ROUND</span>
+        </div>
+
+        <div>
+            <button>Quit</button>
+            <button>Next Round</button>
+        </div>
+
+    </div>
+
+    
+</body>
+</html>
