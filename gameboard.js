@@ -3,6 +3,15 @@ const cellElements = document.querySelectorAll('[data-cell]'); // Sélectionne t
 const displaySign = document.getElementById('sign'); // Sélecteur du tour en cour.
 const boardGame = document.getElementById('board-game'); // Variable qui sélectionne le baord-game.
 const reset = document.getElementById('reset'); // Sélectionne le boutton reset.
+const nextButton = document.getElementById('next');
+const opaScreen = document.getElementById('screen');
+const winScreen = document.getElementById('winning-screen');
+const xScore = document.getElementById('x-score');
+const oScore = document.getElementById('o-score');
+const fooSpan = document.querySelector('.foo span');
+const fooDiv = document.querySelector('#winning-screen p');
+const foo = document.querySelector('.foo div');
+const tieScore = document.querySelector('#tie-score');
 const winningCondition = [ // Condition de victoire une case correspond à un index dans l'Array.
     [0,1,2],
     [3,4,5],
@@ -18,13 +27,33 @@ const winningCondition = [ // Condition de victoire une case correspond à un in
 let circleTurn; // Booléen qui sert à définir le tour en cours.
 const oClass = 'o'; // Variable qui stocke le string 'o' à ajouter dans les class.
 const xClass = 'x'; // Variable qui stocke le string 'x' à ajouter dans les class.
+let scoreX = 0;
+let scoreO = 0;
+let scoreTie = 0;
+let count = 0;
 
-//Logique
+let select;
+
+//Logiques
 startGame();
 
 function startGame(){   // Function de début de game.
 
     circleTurn = false; // Pour le 1er tour X commence en 1er.
+
+    // Reset de toutes les classes afin d'avoir un board vide 
+    xScore.innerHTML = scoreX;
+    oScore.innerHTML = scoreO;
+    tieScore.innerHTML = scoreTie;
+    winScreen.style.visibility = 'hidden';
+    opaScreen.style.visibility = 'hidden';
+    winScreen.classList.remove('tie');
+    foo.classList.remove('imgX');
+    fooSpan.classList.remove('winX');
+    foo.classList.remove('imgO');
+    fooSpan.classList.remove('winO');
+    fooSpan.innerHTML = '';
+    fooDiv.innerHTML = ''
 
     //Events
     cellElements.forEach( cell => {
@@ -33,6 +62,8 @@ function startGame(){   // Function de début de game.
     })
 
     reset.addEventListener('click', resetBoard);
+
+    nextButton.addEventListener('click', resetBoard);
     
     turnSign();
 
@@ -46,16 +77,19 @@ function resetBoard(){
         el.classList.remove(oClass);
         el.classList.remove('win');
     });
+    count = 0;
     startGame();
 
 };
 
-function handleClick(e){ // function à chaque clique souris
+function handleClick(e){ // function principale à chaque clique souris
     
     let cell = e.target; // Sélectionne la cellule sur laquelle il y a un clique dessus.
 
     let currentClass = circleTurn ? oClass : xClass; // Si le circleTurn est à true alors c'est au tour de X de jouer, sinon O.
     
+    let currentIA = circleTurn ? xClass : oClass;
+
     playAtTurn(cell, currentClass); // Function qui prend en paramètre la cellule et la class en cours (soit x, soit o).
 
     swapTurn(); // Le 1er tour la varialbe est à true, au prochain click elle sera à false est donc modifiera le signe en cours (soit x, soit o).
@@ -64,8 +98,12 @@ function handleClick(e){ // function à chaque clique souris
     
     boardHoverClass() // Permet d'activer le hover en fonction du tour en cours.
 
-    checkWin(currentClass);
+    if(select == 1){
 
+        easyCPU(currentIA);
+    }
+
+    checkWin(currentClass);
     
 }
 
@@ -123,8 +161,6 @@ function winning(currentClass){
 
             let result = (cellElements[index].classList.contains(currentClass));
 
-            // console.log(result);
-
             return result; 
             // Va regarder dans chaque cellule si c'est bien la même classe en fonction de la combinaison gagnante            
         
@@ -132,7 +168,12 @@ function winning(currentClass){
     });
 };
 
+
 function checkWin(currentClass){
+
+    for(let i = 0; i< 9; i++){ // Compteur lorsque le compteur est à 81 il considère que c'est un TIE
+        count = count + 1;
+    }
 
     if(winning(currentClass)){
 
@@ -151,7 +192,7 @@ function checkWin(currentClass){
             [...cellElements][3].classList.add('win');
             [...cellElements][4].classList.add('win');
             [...cellElements][5].classList.add('win');
-
+            count = 0;
         }
 
         //Third horizontal Line
@@ -160,7 +201,7 @@ function checkWin(currentClass){
             [...cellElements][6].classList.add('win');
             [...cellElements][7].classList.add('win');
             [...cellElements][8].classList.add('win');
-
+            count = 0;
         }
 
         // First Vertical Line
@@ -169,7 +210,7 @@ function checkWin(currentClass){
             [...cellElements][0].classList.add('win');
             [...cellElements][3].classList.add('win');
             [...cellElements][6].classList.add('win');
-
+            count = 0; 
         }
 
         // Second Vertical Line
@@ -178,7 +219,7 @@ function checkWin(currentClass){
             [...cellElements][1].classList.add('win');
             [...cellElements][4].classList.add('win');
             [...cellElements][7].classList.add('win');
-
+            count = 0;
         }
 
         // Third Vertical Line
@@ -187,7 +228,7 @@ function checkWin(currentClass){
             [...cellElements][2].classList.add('win');
             [...cellElements][5].classList.add('win');
             [...cellElements][8].classList.add('win');
-
+            count = 0;
         }
 
         // First Diagonal Line
@@ -196,7 +237,7 @@ function checkWin(currentClass){
             [...cellElements][0].classList.add('win');
             [...cellElements][4].classList.add('win');
             [...cellElements][8].classList.add('win');
-
+            count = 0;
         }
 
         // Second Diagonal Line
@@ -205,31 +246,40 @@ function checkWin(currentClass){
             [...cellElements][2].classList.add('win');
             [...cellElements][4].classList.add('win');
             [...cellElements][6].classList.add('win');
+            count = 0;
+        }       
 
-        }
+        screenFunctionWin(currentClass);
 
-        screenFunction(currentClass);
+    }  
 
+    // Gestion des parties nuls:  
+    if(count == 81){
+        const fooSpan = document.querySelector('.foo span');
+
+        fooSpan.innerHTML = 'ROUND TIED';
+        opaScreen.style.visibility = 'visible';
+        winScreen.style.visibility = 'visible';
+        tieScore.innerHTML = scoreTie++;
+        winScreen.classList.add('tie');
     }
+
+    
 }
 
-function screenFunction(currentClass){
-
-    const winScreen = document.getElementById('winning-screen');
-    const opaScreen = document.getElementById('screen');
-    const foo = document.querySelector('.foo div');
-    const fooSpan = document.querySelector('.foo span');
+function screenFunctionWin(currentClass){
 
     winScreen.style.visibility = 'visible';
     winScreen.classList.add('move-screen');
     opaScreen.style.visibility = 'visible';
 
-    console.log(foo);
-
     if(currentClass == 'x'){
 
         foo.classList.add('imgX');
         fooSpan.classList.add('winX');
+        xScore.innerHTML = scoreX++;
+        fooSpan.innerHTML = 'TAKES THE ROUND';
+        fooDiv.innerHTML = 'PLAYER 1 WINS';
 
     }
 
@@ -237,6 +287,9 @@ function screenFunction(currentClass){
 
         foo.classList.add('imgO');
         fooSpan.classList.add('winO');
+        oScore.innerHTML = scoreO++;
+        fooSpan.innerHTML = 'TAKES THE ROUND';
+        fooDiv.innerHTML = 'PLAYER 2 WINS';
 
     }
 

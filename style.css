@@ -6,6 +6,20 @@
     box-sizing: border-box;
 }
 
+:root{
+    --black: #1A2A33;
+    --blackgrey: #1F3641;
+    --blue: #31C3BD;
+    --bluelight: #65E9E4;
+    --orange: #F2B137;
+    --orangelight: #FFC860;
+    --greyblue: #A8BFC9;
+    --white: #DBE8ED;
+    --radius: 15px;
+    --radiusxs: 10px;
+    --shadow: inset 0px -8px 0px #10212A;
+}
+
 body{
     height: 100vh;
     background: #1A2A33;
@@ -25,6 +39,167 @@ header{
     align-items: center;
 }
 
+.after-make-choice{
+    position :absolute;
+    height: 100%;
+    width: 100%;
+    display :flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    visibility: hidden;
+}
+
+/* New Game Menu */
+div.pick-mark{
+    height: 471px;
+    width: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    visibility: visible; /* A modifier en visible */
+}
+
+.element{
+    transform: scale(-0,-0);
+    transition: 0.3s;
+}
+
+div.mark{
+    height: 32px;
+    width: 71.97px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+div.player-pick{
+    height: 205px;
+    width: 460px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-evenly;
+    border-radius: var(--radius);
+    background: var(--blackgrey);
+    box-shadow: var(--shadow);
+}
+
+div.player-pick p:first-child{
+    font-style: normal;
+    font-weight: 700;
+    font-size: 16px;
+    line-height: 20px;
+    text-align: center;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #A8BFC9;
+}
+
+div.player-pick p:last-child{
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 18px;
+    text-align: center;
+    letter-spacing: 0.875px;
+    color: #A8BFC9;
+    mix-blend-mode: normal;
+    opacity: 0.5;
+}
+
+div.choose-mark{
+    height: 72px;
+    width: 412px;
+    background: var(--black);
+    border-radius: var(--radiusxs);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+div.bar{
+    height: 54px;
+    width: 398px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+div.bar-grey{
+    background: var(--greyblue);
+    height: 54px;
+    width: 195px;
+    position: absolute;
+    left: 0;
+    transition: 0.7s;
+    transition-timing-function: cubic-bezier(0.6, -0.28, 0.74, 0.05);
+    border-radius: var(--radiusxs);
+}
+
+div.option{
+    height: 54px;
+    width: 198px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    border-radius: var(--radiusxs);
+}
+
+div.option:hover{
+    background: rgba(168, 191, 201, 0.05);
+}
+
+div.option img{
+    height: 32px;
+    z-index: 1;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    user-select: none;
+}
+
+button{
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 20px;
+    line-height: 25px;
+    text-align: center;
+    letter-spacing: 1.25px;
+    text-transform: uppercase;
+    color: var(--black);
+    cursor: pointer;
+}
+
+button.vs-cpu{
+    height: 67px;
+    width: 460px;
+    margin-top: 40px;
+    background: var(--orange);
+    box-shadow: inset 0px -8px 0px #CC8B13;
+    border-radius: var(--radius);
+}
+
+button.vs-cpu:hover{
+    background: var(--orangelight);
+}
+
+button.vs-player{
+    height: 67px;
+    width: 460px;
+    background: var(--blue);
+    box-shadow: inset 0px -8px 0px #118C87;
+    border-radius: var(--radius);
+}
+
+button.vs-player:hover{
+    background: var(--bluelight);
+}
+
+/*GameBoard*/
 .sign-turn{
     position: relative;
     background-color: #1F3641;
@@ -225,7 +400,7 @@ footer {
 
 .move-screen{
     transform: translateY(100%);
-    transition: 1s;
+    /* transition: 1s; */
 }
 
 .winning-screen p {
@@ -272,6 +447,18 @@ footer {
     height: 64px;
     background: url(assets/icon-o.svg) no-repeat;
     margin-right: 24px;
+}
+
+.tie{
+    font-family: 'Outfit';
+    font-style: normal;
+    font-weight: 700;
+    font-size: 40px;
+    line-height: 50px;
+    text-align: center;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    color: #A8BFC9;
 }
 
 .winning-screen div button{

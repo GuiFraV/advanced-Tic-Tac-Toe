@@ -6,58 +6,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://fonts.googleapis.com/css2?family=Outfit&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <script src="app.js" defer></script>
+    <script src="gameboard.js" defer></script>
+    <script src="pickboard.js" defer></script>
     <title>Tic Tac Toe v.2</title>
 </head>
 <body>
 
-    <header>
-        <img src="assets/logo.svg" alt="logo du tic tac toe">
-        <div class="sign-turn">
-            <div class="sign" id="sign"></div>
-            <p>TURN</p>
+    <div class="pick-mark" id="pick-mark">
+        
+        <div class="mark">
+            <img src="assets/logo.svg" alt="Logo tic tac toe">
         </div>
-        <div class="reset" id="reset">
-            <img src="assets/icon-restart.svg" alt="Recommencer">
+        <div class="player-pick">
+            <p>PICK PLAYER 1'S MARK</p>
+            <div class="choose-mark">
+                <div class="bar">
+                    <div class="option">
+                        <img src="assets/icon-x - Copie.svg" alt="circle mark" data-id="x">
+                    </div>
+                    <div class="option">
+                        <img src="assets/icon-o - Copie.svg" alt="cross mark" data-id="o">
+                    </div>
+                    <div class="bar-grey"></div>
+                </div>
+            </div>
+            <p>REMEMBER: X GOES FIRST</p>
         </div>
-    </header>
-
-    <div class="board-game" id="board-game">
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
-        <div class="cell" data-cell></div>
+        <button class="vs-cpu" id="vs-cpu">New Game (VS CPU)</button>
+        <button class="vs-player" id="vs-player">New Game (VS PLAYER)</button>
     </div>
 
-    <footer>
-        <div class="score">X (YOU) <span>14</span></div>
-        <div class="score"> TIES <span>32</span></div>
-        <div class="score">O (CPU) <span>11</span></div>
-    </footer>
+    <div class="after-make-choice" id="after-make-choice">
 
-    <div class="screen" id="screen"></div>
+        <header>
+            <img src="assets/logo.svg" alt="logo du tic tac toe">
+            <div class="sign-turn">
+                <div class="sign" id="sign"></div>
+                <p>TURN</p>
+            </div>
+            <div class="reset" id="reset">
+                <img src="assets/icon-restart.svg" alt="Recommencer">
+            </div>
+        </header>
 
-    <div class="winning-screen" id='winning-screen'>
-
-        <p>Player 2 WINS!</p>
-
-        <div class="foo">
-            <div></div>
-            <span>TAKES THE ROUND</span>
+        <div class="board-game" id="board-game">
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
+            <div class="cell" data-cell></div>
         </div>
 
-        <div>
-            <button>Quit</button>
-            <button>Next Round</button>
-        </div>
+        <footer>
+            <div class="score" >X <div id="xPlayer"></div> <span id="x-score"></span></div>
+            <div class="score"> TIES <span id="tie-score"></span></div>
+            <div class="score" >O <div id="oPlayer"></div> <span id ='o-score'></span></div>
+        </footer>
 
+        <div class="screen" id="screen"></div>
+
+        <div class="winning-screen" id='winning-screen'>
+
+            <p></p>
+
+            <div class="foo">
+                <div></div>
+                <span>TAKES THE ROUND</span>
+            </div>
+
+            <div>
+                <button id="quit">Quit</button>
+                <button id="next">Next Round</button>
+            </div>
+
+        </div>
     </div>
-
     
 </body>
 </html>
