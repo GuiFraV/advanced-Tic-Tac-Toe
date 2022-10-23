@@ -79,6 +79,9 @@ function resetBoard(){
         el.classList.remove('win');
     });
     count = 0;
+    if(signIA() == xClass){
+        easyCPU();
+    }
     startGame();
 
 };
@@ -95,6 +98,8 @@ function handleClick(e){ // function principale à chaque clique souris
 
         playVsIa(cell);
 
+        checkWin(oClass) || checkWin(xClass);
+
     }else {
 
         playAtTurn(cell, currentClass); // Function qui prend en paramètre la cellule et la class en cours (soit x, soit o).
@@ -105,9 +110,8 @@ function handleClick(e){ // function principale à chaque clique souris
         
         boardHoverClass(); // Permet d'activer le hover en fonction du tour en cours.
         
+        checkWin(currentClass);
     }
-    
-    checkWin(currentClass);
     
 }
 
@@ -120,6 +124,7 @@ function easyCPU(){
     const randomNumber = emptyCells[Math.floor(Math.random() * emptyCells.length)];
 
     randomNumber.classList.add(signIA());
+    checkWin(oClass) || checkWin(xClass);
     
 }
 
@@ -318,16 +323,30 @@ function checkWin(currentClass){
     }  
 
     // Gestion des parties nuls:  
-    if(count == 81){
-        const fooSpan = document.querySelector('.foo span');
+    if(select == 1){
 
-        fooSpan.innerHTML = 'ROUND TIED';
-        opaScreen.style.visibility = 'visible';
-        winScreen.style.visibility = 'visible';
-        tieScore.innerHTML = scoreTie++;
-        winScreen.classList.add('tie');
-    }
+        if(count == 162 ){
+            const fooSpan = document.querySelector('.foo span');
+    
+            fooSpan.innerHTML = 'ROUND TIED';
+            opaScreen.style.visibility = 'visible';
+            winScreen.style.visibility = 'visible';
+            tieScore.innerHTML = scoreTie++;
+            winScreen.classList.add('tie');
+        }
+    }else{
 
+        if(count == 81){
+            const fooSpan = document.querySelector('.foo span');
+    
+            fooSpan.innerHTML = 'ROUND TIED';
+            opaScreen.style.visibility = 'visible';
+            winScreen.style.visibility = 'visible';
+            tieScore.innerHTML = scoreTie++;
+            winScreen.classList.add('tie');
+        }
+
+    } 
     
 }
 
@@ -354,7 +373,6 @@ function screenFunctionWin(currentClass){
         oScore.innerHTML = scoreO++;
         fooSpan.innerHTML = 'TAKES THE ROUND';
         fooDiv.innerHTML = 'PLAYER 2 WINS';
-
     }
 
 }
