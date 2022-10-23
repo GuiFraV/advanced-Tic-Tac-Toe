@@ -5,7 +5,6 @@ const vsCPU = document.getElementById('vs-cpu');
 const buttonVsPlayer = document.getElementById('pick-mark');
 const afterMakeChoice = document.querySelector('.after-make-choice');
 const quitButton = document.getElementById('quit');
-const bar = document.querySelector('.bar-grey');
 const playX = document.getElementById('xPlayer');
 const playO = document.getElementById('oPlayer');
 
@@ -19,7 +18,7 @@ let a = [];
 let currentIA = circleTurn ? xClass : oClass;
 
 //Logiques :
-markPosition(player);
+changePosition();
 
 function grabVsPlayer(){   
 
@@ -27,20 +26,36 @@ function grabVsPlayer(){
     
     buttonVsPlayer.style.visibility = 'hidden';
     afterMakeChoice.style.visibility ='visible';
+
+    if(player){
+        playX.innerHTML = `(${pTwo})`;
+        playO.innerHTML = `(${pOne})`;
+    }else{
+        playX.innerHTML = `(${pOne})`;
+        playO.innerHTML = `(${pTwo})`;
+    }
     
 }
 
 function grabVersusCpu(){
     
     grabVsPlayer();
-    easyCPU(currentIA);
+    
+    if(signIA() == xClass){
+        easyCPU();
+        playX.innerHTML = '(CPU)';
+        playO.innerHTML = '(YOU)';
+    }else{
+        playX.innerHTML = '(YOU)';
+        playO.innerHTML = '(CPU)';
+    }
     
     select = 1;
+    
 }
 
-//For Players :
 function changePosition(){
-    
+
     markPosition(player);
     
     tradeMark();
@@ -49,15 +64,10 @@ function changePosition(){
 
 
 function markPosition(player){
-    const bar = document.querySelector('div.bar-grey');
 
     if(player){
         bar.style.left = '50%';
-        playX.innerHTML = `(${pTwo})`;
-        playO.innerHTML = `(${pOne})`;
     }else{
-        playX.innerHTML = `(${pOne})`;
-        playO.innerHTML = `(${pTwo})`;
         bar.style.left = '0%';
     }
 }
@@ -71,25 +81,6 @@ function returnOption(){
     buttonVsPlayer.style.visibility = 'visible';
     afterMakeChoice.style.visibility ='hidden';
     resetBoard();
-}
-
-function easyCPU(currentIA){
-
-    getEmptyCells()
-    
-    const emptyCells = getEmptyCells(); 
-    const randomNumber = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-
-    randomNumber.classList.add(currentIA);
-    
-}
-
-function getEmptyCells() {
-	const cellsArray = Array.from(cellElements);
-
-	return cellsArray.filter(
-		cell => !cell.classList.contains('x') && !cell.classList.contains('o')
-	);
 }
 
 //Events :

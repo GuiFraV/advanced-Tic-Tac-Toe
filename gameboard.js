@@ -12,6 +12,7 @@ const fooSpan = document.querySelector('.foo span');
 const fooDiv = document.querySelector('#winning-screen p');
 const foo = document.querySelector('.foo div');
 const tieScore = document.querySelector('#tie-score');
+const bar = document.querySelector('.bar-grey');
 const winningCondition = [ // Condition de victoire une case correspond à un index dans l'Array.
     [0,1,2],
     [3,4,5],
@@ -21,7 +22,7 @@ const winningCondition = [ // Condition de victoire une case correspond à un in
     [2,5,8],
     [0,4,8],
     [2,4,6]
-]
+];
 
 // Variables globales:
 let circleTurn; // Booléen qui sert à définir le tour en cours.
@@ -63,7 +64,7 @@ function startGame(){   // Function de début de game.
 
     reset.addEventListener('click', resetBoard);
 
-    nextButton.addEventListener('click', resetBoard);
+    nextButton.addEventListener('click', resetBoard);  
     
     turnSign();
 
@@ -87,24 +88,85 @@ function handleClick(e){ // function principale à chaque clique souris
     let cell = e.target; // Sélectionne la cellule sur laquelle il y a un clique dessus.
 
     let currentClass = circleTurn ? oClass : xClass; // Si le circleTurn est à true alors c'est au tour de X de jouer, sinon O.
-    
-    let currentIA = circleTurn ? xClass : oClass;
-
-    playAtTurn(cell, currentClass); // Function qui prend en paramètre la cellule et la class en cours (soit x, soit o).
-
-    swapTurn(); // Le 1er tour la varialbe est à true, au prochain click elle sera à false est donc modifiera le signe en cours (soit x, soit o).
-    
-    turnSign(); // Function qui affiche le signe du tour en cours.
-    
-    boardHoverClass() // Permet d'activer le hover en fonction du tour en cours.
 
     if(select == 1){
 
-        easyCPU(currentIA);
-    }
+        setTimeout(() => {easyCPU()}, 10);
 
+        playVsIa(cell);
+
+    }else {
+
+        playAtTurn(cell, currentClass); // Function qui prend en paramètre la cellule et la class en cours (soit x, soit o).
+    
+        swapTurn(); // Le 1er tour la varialbe est à true, au prochain click elle sera à false est donc modifiera le signe en cours (soit x, soit o).
+        
+        turnSign(); // Function qui affiche le signe du tour en cours.
+        
+        boardHoverClass(); // Permet d'activer le hover en fonction du tour en cours.
+        
+    }
+    
     checkWin(currentClass);
     
+}
+
+
+function easyCPU(){
+
+    getEmptyCells();
+    
+    const emptyCells = getEmptyCells(); 
+    const randomNumber = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+    randomNumber.classList.add(signIA());
+    
+}
+
+function getEmptyCells() {
+	const cellsArray = Array.from(cellElements);
+
+	return cellsArray.filter(
+		cell => !cell.classList.contains('x') && !cell.classList.contains('o')
+	);
+}
+
+function playVsIa(cell){
+
+    if(signIA() == oClass){
+
+        cell.classList.add(xClass);
+
+    }else {
+
+        cell.classList.add(oClass);
+
+    }
+
+}
+
+function signIA(){
+        
+    let style = bar.style.left;
+
+    if(style == '0%'){
+
+        boardGame.classList.add(xClass);
+        boardGame.classList.remove(oClass);
+        displaySign.classList.add(xClass);
+
+
+        return oClass;
+
+    }else {
+
+        boardGame.classList.add(oClass);
+        boardGame.classList.remove(xClass);
+        displaySign.classList.add(oClass);
+
+
+        return xClass;
+    }
 }
 
 function turnSign(){
@@ -128,14 +190,15 @@ function turnSign(){
 function playAtTurn(cell, currentClass){
 
     cell.classList.add(currentClass); // Sur la cellule qui est cliqué ajoute la class en cours (soit x, soit o). 
+    
 }
 
 function boardHoverClass(){
-
+    
     boardGame.classList.remove(xClass);
 
     boardGame.classList.remove(oClass);
-
+    
     if(circleTurn){
 
         boardGame.classList.add(oClass);
@@ -144,7 +207,8 @@ function boardHoverClass(){
 
         boardGame.classList.add(xClass);
 
-    }
+    }  
+
 }
 
 function swapTurn(){
